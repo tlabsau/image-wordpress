@@ -1,0 +1,21 @@
+# Cache objects
+packer_cache/
+
+# Crash log
+crash.log
+
+# Exclude all .pkrvars.hcl files, which are likely to contain sensitive data,
+# such as password, private keys, and other secrets. These should not be part of
+*.pkrvars.hcl
+
+# For built boxes
+*.box
+
+# mac files
+.DS_STORE
+
+# vscode setting
+.vscode
+
+# environment file
+.env

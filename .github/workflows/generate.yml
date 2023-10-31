@@ -1,0 +1,41 @@
+name: Generate Golden Image
+
+on:
+  workflow_dispatch:
+  schedule:
+    # triggers the workflow every day at 13:00 UTC (mid-night AEST time)
+    - cron: '0 13 * * *'
+
+permissions:
+  pull-requests: read
+
+defaults:
+  run:
+    shell: bash
+
+jobs:
+  generate:
+    name: Generate new golden image
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+
+      - name: Setup AWS credentials
+        uses: aws-actions/configure-aws-credentials@v1
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: ${{ env.AWS_REGION }}
+
+      - name: Install tools
+        run: |
+          brew install packer
+
+      - name: Install dependencies and tools
+        run: |
+          cd packer
+          packer build -var-file="variables.pkrvars.hcl" .
+        env:
+          PKR_VAR_aws_profile: default
