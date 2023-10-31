@@ -5,9 +5,6 @@ on:
     branches: ["main"]
   pull_request:
 
-permissions:
-  contents: read
-
 jobs:
   snyk:
     permissions:
@@ -26,19 +23,25 @@ jobs:
         env:
           SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
 
-      - name: Install dependencies
-        run: |
-          python3 -m pip install --upgrade pip
-          python3 -m pip install -r requirements.txt
-
-      - name: Run Snyk to check for vulnerabilities
-        uses: snyk/actions/python@master
-        continue-on-error: true # To make sure that SARIF upload gets called
+      # Runs Snyk Code (SAST) analysis and uploads result into GitHub.
+      # Use || true to not fail the pipeline
+      - name: Snyk Code test
+        run: snyk code test --sarif > snyk-code.sarif || true
         env:
           SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
-        with:
-          args: --file=requirements.txt --skip-unresolved --severity-threshold=high --sarif-file-output=snyk.sarif
-          command: test
+
+      # Runs Snyk Open Source (SCA) analysis and uploads result to Snyk.
+      - name: Snyk Open Source monitor
+        run: snyk monitor --all-projects
+        env:
+          SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
+
+      # Runs Snyk Infrastructure as Code (IaC) analysis and uploads result to Snyk.
+      # Use || true to not fail the pipeline.
+      - name: Snyk IaC test and report
+        run: snyk iac test --severity-threshold=high --report # || true
+        env:
+          SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
 
       - name: Upload result to GitHub Code Scanning
         uses: github/codeql-action/upload-sarif@v2
