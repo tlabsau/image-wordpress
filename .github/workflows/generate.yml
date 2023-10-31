@@ -36,18 +36,18 @@ jobs:
         uses: hashicorp/setup-packer@main
         id: setup
 
-      - name: Run `packer init`
+      - name: Init packer
         id: init
         run: |
-          packer init -var-file="variables.pkrvars.hcl" .
+          packer init .
+        env:
+          PKR_VAR_aws_profile: default
 
-      - name: Run `packer validate`
+      - name: Validate packer files
         id: validate
         run: |
-          packer validate -var-file="variables.pkrvars.hcl" .
+          packer validate .
 
       - name: Generate the image
         run: |
-          packer build -var-file="variables.pkrvars.hcl" .
-        env:
-          PKR_VAR_aws_profile: default
+          packer build .
