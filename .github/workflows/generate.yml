@@ -17,6 +17,9 @@ jobs:
   generate:
     name: Generate new golden image
     runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: ./packer
 
     steps:
       - name: Checkout
@@ -29,13 +32,22 @@ jobs:
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           aws-region: ${{ vars.AWS_REGION }}
 
-      - name: Install tools
-        run: |
-          brew install packer
+      - name: Setup `packer`
+        uses: hashicorp/setup-packer@main
+        id: setup
 
-      - name: Install dependencies and tools
+      - name: Run `packer init`
+        id: init
         run: |
-          cd packer
+          packer init -var-file="variables.pkrvars.hcl" .
+
+      - name: Run `packer validate`
+        id: validate
+        run: |
+          packer validate -var-file="variables.pkrvars.hcl" .
+
+      - name: Generate the image
+        run: |
           packer build -var-file="variables.pkrvars.hcl" .
         env:
           PKR_VAR_aws_profile: default
