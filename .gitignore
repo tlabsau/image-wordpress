@@ -19,3 +19,6 @@ crash.log
 
 # environment file
 .env
+
+# inspec files
+*.lock

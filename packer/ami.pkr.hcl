@@ -26,4 +26,8 @@ build {
       "--scp-extra-args", "'-O'"
     ]
   }
+
+  provisioner "inspec" {
+    profile = "../inspec/"
+  }
 }

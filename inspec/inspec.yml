@@ -1,0 +1,8 @@
+name: Check the image hardening
+title: Check the image hardening
+maintainer: TLabs
+license: GNU GENERAL PUBLIC LICENSE
+summary: Ensure new image is set up correctly
+version: 1.0.0
+supports:
+  - os-family: linux
