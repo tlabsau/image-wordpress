@@ -1,0 +1,10 @@
+- name: Install Apache
+  vars:
+    packages:
+      - httpd
+  dnf:
+    pkg: "{{ packages }}"
+    update_cache: yes
+    state: latest
+  notify:
+    - Restart Apache

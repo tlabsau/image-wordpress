@@ -1,0 +1,5 @@
+- name: Download WordPress
+  command: wp core download --locale=en_AU
+  args:
+    chdir: "{{ wordpress_dir }}"
+  become_user: "{{ user }}"

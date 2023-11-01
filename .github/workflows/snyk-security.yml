@@ -2,11 +2,13 @@ name: Snyk Security
 
 on:
   push:
-    branches: ["main"]
+    branches: [ main ]
   pull_request:
+    branches: [ main ]
 
 jobs:
   snyk:
+    name: Run Snyk code sarif report
     permissions:
       contents: read # for actions/checkout to fetch code
       security-events: write # for github/codeql-action/upload-sarif to upload SARIF results
@@ -14,7 +16,8 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - uses: actions/checkout@v3
+      - name: Clone repo
+        uses: actions/checkout@v3
 
       - name: Set up Snyk CLI to check for security issues
         # Snyk can be used to break the build when it detects security issues.
@@ -24,7 +27,6 @@ jobs:
           SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
 
       # Runs Snyk Code (SAST) analysis and uploads result into GitHub.
-      # Use || true to not fail the pipeline
       - name: Snyk Code test
         run: snyk code test --sarif > snyk-code.sarif || true
         env:

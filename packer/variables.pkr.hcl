@@ -8,7 +8,7 @@ variable "company" {
   default = "tlabs"
 }
 
-variable "ami_name" {
+variable "app" {
   type    = string
   default = "wordpress"
 }

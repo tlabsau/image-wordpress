@@ -1,0 +1,13 @@
+- name: Install PHP and related packages
+  vars:
+    packages:
+      - php
+      - php-fpm
+      - php-cli
+      - php-curl
+      - php-pdo
+      - php-mysqlnd
+  dnf:
+    pkg: "{{ packages }}"
+    update_cache: yes
+    state: latest

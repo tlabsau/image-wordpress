@@ -1,0 +1,7 @@
+- name: Set www directory ownership
+  file:
+    path: "{{ www_dir }}"
+    state: directory
+    recurse: yes
+    owner: "{{ user }}"
+    group: "{{ user }}"
