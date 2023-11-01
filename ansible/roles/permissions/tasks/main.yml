@@ -3,6 +3,6 @@
   file:
     path: "{{ www_dir }}"
     state: directory
-    recurse: yes
+    recurse: true
     owner: "{{ user }}"
     group: "{{ user }}"

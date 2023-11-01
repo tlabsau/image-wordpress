@@ -5,7 +5,7 @@
       - httpd
   dnf:
     pkg: "{{ packages }}"
-    update_cache: yes
+    update_cache: true
     state: latest
   notify:
     - Restart Apache

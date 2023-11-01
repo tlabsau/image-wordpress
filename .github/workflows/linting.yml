@@ -3,26 +3,26 @@ name: yml linting
 
 on:
   push:
-    branches: [ main ]
+    branches: [main]
   pull_request:
-    branches: [ main ]
+    branches: [main]
 
 jobs:
   lint:
     name: Lint
     runs-on: ubuntu-latest
     steps:
-      - name: Check out the codebase.
+      - name: Check out the codebase
         uses: actions/checkout@v3
 
-      - name: Set up Python 3.
+      - name: Set up Python 3
         uses: actions/setup-python@v2
         with:
           python-version: '3.x'
 
-      - name: Install test dependencies.
+      - name: Install test dependencies
         run: pip3 install yamllint
 
-      - name: Lint code.
+      - name: Lint code
         run: |
           yamllint .

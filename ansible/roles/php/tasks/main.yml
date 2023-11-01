@@ -10,5 +10,5 @@
       - php-mysqlnd
   dnf:
     pkg: "{{ packages }}"
-    update_cache: yes
+    update_cache: true
     state: latest
