@@ -1,3 +1,4 @@
+---
 - name: Download WordPress
   command: wp core download --locale=en_AU
   args:

@@ -1,3 +1,4 @@
+---
 - name: Install PHP and related packages
   vars:
     packages:
